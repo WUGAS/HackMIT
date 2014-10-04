@@ -1,0 +1,3 @@
+function figureCost(numPeople) {
+	
+}
