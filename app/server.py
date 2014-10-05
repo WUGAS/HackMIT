@@ -31,8 +31,17 @@ def exchange(usdToConvert):
 @app.route("/getbtp")
 def getBTP():
   usd = request.args.get('usd')
+  i = request.args.get('user')
+  print i
   bitcoin = exchange(float(usd))
-  return jsonify(bitcoin=bitcoin)
+  return jsonify(bitcoin=bitcoin, id=i)
+
+@app.route("/transfer")
+def transferBC():
+  num = request.args.get('num')
+  email = request.args.get('email')
+  sendBTC(email, num)
+  return 'success'
 
 def make_request(url, body=None):
   opener = urllib2.build_opener()

@@ -94,7 +94,7 @@ function sendPost() {
 	}
 
 	xhr.onreadystatechange = function() {
-		fnHandleReadyState(xhr, ocrCallback); 
+		fnHandleReadyState(xhr, ocrCallback);
 		// function(data) {
 		// 	var response = $.parseJSON(data.responseText);
 		// 	// console.log(response);
@@ -117,14 +117,14 @@ function ocrCallback(data) {
 	$('[data-container]').hide();
 
 	for (var i = 0; i < numberOfPeople; i++) {
-		$('[data-interface-people-container]').append('<div class="circle degrees-' + Math.floor((i+1)/numberOfPeople * 360) + '"><button class="btn circle-button" data-person-button-' + (i + 1) + ' style="background-color: #DDDDDD;" data-index=' + (i + 1) + '></button>' + $('[data-person-' + (i + 1) + ']').val() + '</div>');
+		$('[data-interface-people-container]').append('<div class="circle degrees-' + Math.floor((i + 1) / numberOfPeople * 360) + '"><button class="btn circle-button" data-person-button-' + (i + 1) + ' style="background-color: #DDDDDD;" data-index=' + (i + 1) + '></button>' + $('[data-person-' + (i + 1) + ']').val() + '</div>');
 		$('[data-person-button-' + (i + 1) + ']').click(function(event) {
 			var keys = Object.keys(dict['items']);
 			var person = $(this).data('index');
 			addToPeopleDict(person, keys[index]);
 			console.log(peopleDict[person].indexOf(keys[index]));
 			if (peopleDict[person].indexOf(keys[index]) >= 0) {
-				$('[data-person-button-' + person + ']').css('background-color', colors[person%colors.length]);
+				$('[data-person-button-' + person + ']').css('background-color', colors[person % colors.length]);
 			} else {
 				$('[data-person-button-' + person + ']').css('background-color', '#DDDDDD');
 			}
@@ -133,11 +133,11 @@ function ocrCallback(data) {
 
 	var keys = Object.keys(dict['items']);
 	setNextItemHeader(keys[index]);
-} 
+}
 
 $('[data-next-item]').click(function(event) {
 	var keys = Object.keys(dict['items']);
-	
+
 	dict['items'][keys[index]] *= quantity;
 
 	index++;
@@ -147,13 +147,28 @@ $('[data-next-item]').click(function(event) {
 			setNextItemHeader(keys[index]);
 		} else {
 			var cost = figureGroupCost(peopleDict, dict['items'], numberOfPeople, dict['total'], dict['tip'], dict['tax']);
-
 			var array = Object.keys(cost);
 			$('.modal-list').empty();
-			for (var i = 0; i < array.length; i++) {	
-				$('.modal-list').append('<li class="list-group-item">' + $('[data-person-' + array[i]+ ']').val() + ' owes ' + cost[array[i]] + ' bit coin' + '</li>');
+			for (var i = 0; i < array.length; i++) {
+				var thing = array[i];
+				$('.modal-list').append('<li class="list-group-item"><a class="bit-link" data-email="' + $('[data-person-' + thing + ']').val() + '">' + $('[data-person-' + thing + ']').val() + ' owes ' + '<span data-amount-' + i + '></span>' + ' bit coin' + '</a></li>');
+				$.get('/getbtp', {
+					usd: cost[array[i]],
+					user: i
+				}, function(data) {
+					$('#myModal').modal('show');
+					console.log(data);
+					$('[data-amount-' + data.id + ']').html(data.bitcoin);
+					$('.bit-link').click(function() {
+						$.get('/transfer', {
+							num: data.bitcoin,
+							email: $(this).data('email')
+						}, function(data) {
+							alert('funds transfered!');
+						});
+					});
+				});
 			}
-			$('#myModal').modal('show');
 		}
 	}
 });
@@ -191,28 +206,24 @@ function fixOCR(str) {
 			var word = wordArr[j];
 			if (isNaN(word)) { //not a number
 				if (word.length == 1 && word == "l") { //potential joining of elements
-					if (!(isNaN("1"+wordArr[j+1]))) {
+					if (!(isNaN("1" + wordArr[j + 1]))) {
 						fixedArr.push(workingString.substring(0, workingString.length - 1));
-						fixedArr.push("1"+wordArr[j+1]);
+						fixedArr.push("1" + wordArr[j + 1]);
 						workingString = "";
 						j += 1;
-					}
-					else {
+					} else {
 						workingString += (word + " ");
 					}
-				}	
-				else {
+				} else {
 					workingString += (word + " ");
-				}	
-			}
-			else { //is a number
+				}
+			} else { //is a number
 
 				if (wordWork) {
 					fixedArr.push(workingString.substring(0, workingString.length - 1));
 					workingString = word;
 					wordWork = false;
-				}
-				else {
+				} else {
 					workingString += word;
 				}
 			}
@@ -235,17 +246,13 @@ function parseOCR(receiptArray) { //[0] -> entree, [1] -> price
 		var num = receiptArray[i][1];
 		if (title.toLowerCase() == 'total') {
 			fin['total'] = num;
-		}
-		else if (title.toLowerCase() == 'subtotal' || title.toLowerCase() == 'credit card' || title.toLowerCase() == 'total tendered') {
+		} else if (title.toLowerCase() == 'subtotal' || title.toLowerCase() == 'credit card' || title.toLowerCase() == 'total tendered') {
 			//do nothing
-		}
-		else if (title.toLowerCase() == 'tip') {
+		} else if (title.toLowerCase() == 'tip') {
 			fin['tip'] = num;
-		}
-		else if (title.toLowerCase() == 'tax') {
+		} else if (title.toLowerCase() == 'tax') {
 			fin['tax'] = num;
-		}
-		else { //FOOD
+		} else { //FOOD
 			fin['items'][title] = num;
 		}
 	}
