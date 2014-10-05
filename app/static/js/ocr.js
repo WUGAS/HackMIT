@@ -14,6 +14,7 @@
 var something = null;
 var colors = ["87ceeb", "be0d0d", "f39f32", "3399ff", "e5ce30", "c5c4bc", "00b770", "1c75cf"];
 var dict = null;
+var index = 0;
 
 var imageLoader = document.getElementById('file');
 imageLoader.addEventListener('change', handleImage, false);
@@ -114,13 +115,12 @@ function ocrCallback(data) {
 		$('[data-container]').hide();
 		$('[data-interface-people-container]').append('<div class="circle degrees-' + Math.floor((i+1)/numberOfPeople * 360) + '"><button class="btn circle-button" data-person-button-' + i + ' style="background-color: #' + colors[i%colors.length] + ';"></button>' + $('[data-person-' + (i + 1) + ']').val() + '</div>');
 	}
-
-	run(0);
 }
 
-function run(index) {
-	dict = 
-}
+$('[data-next-item]').click(function(event) {
+	console.log(Object.keys(dict['items']));
+	console.log('current ' + dict['items']);
+});
 
 function fixOCR(str) {
 	// var fixDict = {};
@@ -180,7 +180,7 @@ function parseOCR(receiptArray) { //[0] -> entree, [1] -> price
 	var fin = {};
 	fin['tip'] = 0;
 	fin['tax'] = 0;
-	fin['dishes'] = {};
+	fin['items'] = {};
 	for (var i = 0; i < receiptArray.length; i++) {
 		var title = receiptArray[i][0];
 		var num = receiptArray[i][1];
@@ -197,7 +197,7 @@ function parseOCR(receiptArray) { //[0] -> entree, [1] -> price
 			fin['tax'] = num;
 		}
 		else { //FOOD
-			fin['dishes'][title] = num;
+			fin['items'][title] = num;
 		}
 	}
 	return fin;
