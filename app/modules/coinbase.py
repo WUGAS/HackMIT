@@ -67,6 +67,16 @@ def exchange(usdToConvert):
     print 'JSON FORMAT ERROR'
     return e
 
+#GET balance
+def getBalance():
+  jsonString = make_request('https://coinbase.com/api/v1/account/balance').read()
+  try:
+    num = float(json.loads(jsonString)['amount'])
+    return num
+  except (ValueError, KeyError, TypeError) as e:
+    print 'JSON FORMAT ERROR'
+    return e
+
 def sendBTC(email, num):
   trans_params = {
     'transaction': {

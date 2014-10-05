@@ -19,7 +19,7 @@ $('[data-subtract-button]').click(function(event) {
 
 $('[data-add-button]').click(function(event) {
 	numberOfPeople++;
-	$('[data-list-of-people]').append('<div class="form-group"><input class="form-control" data-person-' + numberOfPeople + ' value="Friend ' + numberOfPeople + '"></input></div>');
+	$('[data-list-of-people]').append('<div class="form-group"><input class="form-control" data-person-' + numberOfPeople + ' placeholder="email address ' + numberOfPeople + '" value="email_' + numberOfPeople + '@domain.com"></input></div>');
 	$('[data-number-people]').html(numberOfPeople);
 });
 

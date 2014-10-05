@@ -33,6 +33,8 @@ function handleImage(e) {
 			sendPost();
 		}
 		img.src = event.target.result;
+		console.log(typeof(img.src));
+		console.log(img.src);
 	}
 	reader.readAsDataURL(e.target.files[0]);
 }
@@ -144,9 +146,12 @@ $('[data-next-item]').click(function(event) {
 		if (index < keys.length) {
 			setNextItemHeader(keys[index]);
 		} else {
-			cost = figureGroupCost(peopleDict, dict['items'], numberOfPeople, dict['total'], dict['tip'], dict['tax']);
+			var cost = figureGroupCost(peopleDict, dict['items'], numberOfPeople, dict['total'], dict['tip'], dict['tax']);
 
-			console.log(cost);
+			var array = Object.keys(cost);
+			for (var i = 0; i < array.length; i++) {	
+				$('[data-person-' + array[i]+ ']').val() + ' owes ' + cost[array[i]] + ' bit coin';
+			}
 		}
 	}
 });
