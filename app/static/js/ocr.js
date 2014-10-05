@@ -128,7 +128,9 @@ function ocrCallback(data) {
 
 $('[data-next-item]').click(function(event) {
 	var keys = Object.keys(dict['items']);
-	console.log([index]);
+	
+	dict['items'][keys[index]] *= quantity;
+
 	index++;
 
 	if (index < keys.length) {
@@ -137,6 +139,7 @@ $('[data-next-item]').click(function(event) {
 });
 
 function setNextItemHeader(header) {
+	quantity = 1;
 	$('[data-how-many-purcahse]').html('How many ' + header + ' did you purchase?');
 	$('[data-item-text]').html(header);
 }

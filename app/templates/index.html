@@ -56,16 +56,26 @@
 		</section>
 	</div>
 	<div class="window-height">
-		<section>
+		<div class="col-xs-12">
 			<h4 data-how-many-purcahse></h4>
+			<div class="form-group">
+				<span type="number" class="form-control" placeholder="quantity?" data-quantity>0</span>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary" data-quantity-subtract-button>-</button>
+				<button class="btn btn-primary" data-quantity-add-button>+</button>
+			</div>
 			<div data-interface-container>
 				<div class="circle-container" data-interface-people-container>
 						<h4>Split the cost?</h4>
 						<h4 data-item-text></h4>
 				</div>
 			</div>
-			<button class="btn btn-primary" data-next-item>next item</button>	
-		</section>
+			<p></p>
+			<div class="form-group">
+				<button class="btn btn-primary col-xs-12" data-next-item>next item</button>	
+			</div>
+		</div>
 	</div>
 	<canvas id="canvas" class="hide"></canvas>
 	<!-- <form>

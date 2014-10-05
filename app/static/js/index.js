@@ -7,7 +7,7 @@
 
 var numberOfPeople = 0;
 
-var quantity = 0;
+var quantity = 1;
 
 $('[data-subtract-button]').click(function(event) {
 	$('[data-person-' + numberOfPeople + ']').remove();
@@ -24,7 +24,7 @@ $('[data-add-button]').click(function(event) {
 });
 
 $('[data-quantity-subtract-button]').click(function(event) {
-	if (quantity > 0) {
+	if (quantity > 1) {
 		quantity--;
 	}
 	$('[data-quantity]').html(quantity);
