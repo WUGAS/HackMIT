@@ -37,19 +37,29 @@ function sharing(peopleDict, dish) {
 	return count;
 }
 
+var peopleDict = {};
+function addToPeopleDict(person, dish) {
+	if (peopleDict[person] == undefined) {
+		peopleDict[person] = [dish];
+	}
+	else {
+		peopleDict[person].push(dish);
+	}
+	return peopleDict;
+}
 
 // TEST
-figureIndividualCost(2, 10, 4, 2, 1);
+// figureIndividualCost(2, 10, 4, 2, 1);
 
-var peopleDict = {};
-peopleDict["Suhong"] = ["Burger", "Fries"];
-peopleDict["Greg"] = ["Fries"];
-var tip = 2,
-tax = 1,
-numPeople = 2,
-totalCost = 15,
-dishDict = {};
-dishDict["Burger"] = 10.00;
-dishDict["Fries"] = 5.00;
-var finalPayment = figureGroupCost(peopleDict, dishDict, numPeople, totalCost, tip, tax);
-console.log(finalPayment["Suhong"]);
+// var peopleDict = {};
+// peopleDict["Suhong"] = ["Burger", "Fries"];
+// peopleDict["Greg"] = ["Fries"];
+// var tip = 2,
+// tax = 1,
+// numPeople = 2,
+// totalCost = 15,
+// dishDict = {};
+// dishDict["Burger"] = 10.00;
+// dishDict["Fries"] = 5.00;
+// var finalPayment = figureGroupCost(peopleDict, dishDict, numPeople, totalCost, tip, tax);
+// console.log(finalPayment["Suhong"]);

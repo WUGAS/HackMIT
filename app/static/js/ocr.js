@@ -12,6 +12,8 @@
 
 // }
 var something = null;
+var colors = ["87ceeb", "be0d0d", "f39f32", "3399ff", "e5ce30", "c5c4bc", "00b770", "1c75cf"];
+var dict = null;
 
 var imageLoader = document.getElementById('file');
 imageLoader.addEventListener('change', handleImage, false);
@@ -27,7 +29,7 @@ function handleImage(e) {
 			canvas.height = img.height;
 			ctx.drawImage(img, 0, 0);
 			grayScale(ctx, canvas);
-			sendPost(); //TEST
+			sendPost();
 		}
 		img.src = event.target.result;
 	}
@@ -89,17 +91,35 @@ function sendPost() {
 	}
 
 	xhr.onreadystatechange = function() {
-		fnHandleReadyState(xhr, function(data) {
-			var response = $.parseJSON(data.responseText);
-			// console.log(response);
-			console.log(response['text_block'][0].text);
-			test = fixOCR(response['text_block'][0].text);
-			console.log('redone: \n' + test);
-			parseOCR(test);
-		});
+		fnHandleReadyState(xhr, ocrCallback); 
+		// function(data) {
+		// 	var response = $.parseJSON(data.responseText);
+		// 	// console.log(response);
+		// 	console.log(response['text_block'][0].text);
+		// 	test = fixOCR(response['text_block'][0].text);
+		// 	// console.log('redone: \n' + test);
+		// 	console.log(test);
+		// });
 	}
 	xhr.onload = function() {};
 	xhr.send(fd);
+}
+
+function ocrCallback(data) {
+	var response = $.parseJSON(data.responseText);
+	dataArray = fixOCR(response['text_block'][0].text);
+	dict = parseOCR(dataArray);
+
+	for (var i = 0; i < numberOfPeople; i++) {
+		$('[data-container]').hide();
+		$('[data-interface-people-container]').append('<div class="circle degrees-' + Math.floor((i+1)/numberOfPeople * 360) + '"><button class="btn circle-button" data-person-button-' + i + ' style="background-color: #' + colors[i%colors.length] + ';"></button>' + $('[data-person-' + (i + 1) + ']').val() + '</div>');
+	}
+
+	run(0);
+}
+
+function run(index) {
+	dict = 
 }
 
 function fixOCR(str) {
@@ -157,5 +177,28 @@ function fixOCR(str) {
 }
 
 function parseOCR(receiptArray) { //[0] -> entree, [1] -> price
-
+	var fin = {};
+	fin['tip'] = 0;
+	fin['tax'] = 0;
+	fin['dishes'] = {};
+	for (var i = 0; i < receiptArray.length; i++) {
+		var title = receiptArray[i][0];
+		var num = receiptArray[i][1];
+		if (title.toLowerCase() == 'total') {
+			fin['total'] = num;
+		}
+		else if (title.toLowerCase() == 'subtotal' || title.toLowerCase() == 'credit card' || title.toLowerCase() == 'total tendered') {
+			//do nothing
+		}
+		else if (title.toLowerCase() == 'tip') {
+			fin['tip'] = num;
+		}
+		else if (title.toLowerCase() == 'tax') {
+			fin['tax'] = num;
+		}
+		else { //FOOD
+			fin['dishes'][title] = num;
+		}
+	}
+	return fin;
 }

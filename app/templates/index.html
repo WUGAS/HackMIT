@@ -3,6 +3,7 @@
 	<meta content="yes" name="apple-mobile-web-app-capable" />
 	<meta content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" name="viewport" />
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/degree.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
 </head>
 <body>
@@ -21,51 +22,53 @@
 			</div>
 		</div>
 	</div>
-	<section id="welcome">
-		<div class="window-height">
-			<div class="col-xs-offset-1 col-xs-10">
-				<h1 class="section">App Name</h1>
-				<p>
-					Welcome to App Name, the worry free way to split the check with friends. 
-				</p>
-				<a class="btn btn-primary col-xs-12" href="#how-many-people" data-get-started>Let's get started!</a>
-			</div>
-		</div>
-	</section>
 	<div data-container>
-		<section id="how-many-people">
+		<section id="welcome">
 			<div class="window-height">
 				<div class="col-xs-offset-1 col-xs-10">
-					<h2>How many people?</h2>
-					<div class="section">
-						<input type="number" class="form-control" placeholder="how many people?">
+					<h1 class="section">App Name</h1>
+					<p>
+						Welcome to App Name, the worry free way to split the check with friends. 
+					</p>
+					<a class="btn btn-primary col-xs-12" href="#form" data-get-started>Let's get started!</a>
+				</div>
+			</div>
+		</section>
+		<section id="form">
+			<div class="window-height">
+				<div class="col-xs-offset-1 col-xs-10">
+					<h2>how many people?</h2>
+					<div class="form-group">
+						<span type="number" class="form-control" placeholder="how many people?" data-number-people>0</span>
 					</div>
-					<div class="">
-						<a class="btn btn-primary col-xs-3" href="#welcome">Back</a>
-						<a class="btn btn-primary col-xs-offset-6 col-xs-3" href="#enter-info">Next</a>
+					<div class="form-group">
+						<button class="btn btn-primary" data-subtract-button>-</button>
+						<button class="btn btn-primary" data-add-button>+</button>
+					</div>
+					<div data-list-of-people>
+					</div>
+					<h2>photo receipt</h2>
+					<div class="upload-container">
+						<input name="file" id="file" class="col-xs-offset-4 col-xs-4" type="file" src="{{url_for('static', filename='imgs/camera.png')}}">
 					</div>
 				</div>
 			</div>
 		</section>
-		<section id="enter-info">
-			<div class="window-height">
-				<div class="col-xs-offset-1 col-xs-10">
-					<h2>Take a photo?</h2>
-					<a class="btn btn-primary col-xs-3" href="#how-many-people">Back</a>
-					<a class="btn btn-primary col-xs-offset-6 col-xs-3" href="#enter-info">Next</a>
+	</div>
+	<div class="window-height">
+		<section>
+			<h2>Who bought what?</h2>
+			<div data-interface-container style:"width: 100px">
+				<div class="circle-container" data-interface-people-container>
+
 				</div>
 			</div>
 		</section>
 	</div>
-	<div class="footer">
-		<div class="container">
-			<p class="muted credit">Example courtesy <a href="http://martinbean.co.uk">Martin Bean</a> and <a href="http://ryanfait.com/sticky-footer/">Ryan Fait</a>.</p>
-		</div>
-	</div>
-	<canvas id="canvas"></canvas>
-	<form>
+	<canvas id="canvas" class="hide"></canvas>
+	<!-- <form>
 		<input name="file" type="file" id="file"/>
-	</form>
+	</form> -->
 	<script src = "{{url_for('static', filename='js/jquery.min.js')}}"></script>
 	<script src = "{{url_for('static', filename='js/index.js')}}"></script>
 	<script src = "{{url_for('static', filename='js/idolondemand-config.js')}}"></script>

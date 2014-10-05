@@ -1,5 +1,5 @@
 body {
-	padding-top: 40px;
+	padding-top: 50px;
 }
 
 section {
@@ -16,7 +16,13 @@ h2 {
 }
 
 .footer {
-	height: 30px;
+	position:fixed;
+	left:0px;
+	bottom:0px;
+	padding-top: 6px;
+	height:45px;
+	width:100%;
+	background:#EFEFEF;
 }
 
 .navbar {
@@ -29,10 +35,47 @@ h2 {
 }
 
 .window-height {
-	height: 96%;
+	height: 100%;
 }
 
 .section {
 	padding-top: 130px;
+	text-align: center;
+}
+
+.circle-container {
+	position: relative;
+	width: 19em;
+	height: 19em;
+	padding: 2em;
+	border: solid 1px;
+	/*color: #428bca;*/
+	border-radius: 50%;
+	margin: 1.75em auto 0;
+}
+
+.circle-container div {
+	display: block;
+	position: absolute;
+	top: 50%; left: 50%;
+	width: 4em; height: 4em;
+	margin: -2em;
+}
+
+.circle-button {
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    border: 4px solid #000;
+}
+
+.circle {
+	border-radius: 50%;
+	behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+	width: 100px;
+	height: 100px;
+	/*padding-top: 1em;*/
+	/*background: #DDDDDD;*/
+	/*border: 4px solid #333333;*/
 	text-align: center;
 }
