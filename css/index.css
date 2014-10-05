@@ -1,3 +1,38 @@
 body {
-	padding-top: 80px;
+	padding-top: 40px;
+}
+
+section {
+	padding-top:40px;
+	margin-top:-40px;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
+
+.footer {
+	height: 30px;
+}
+
+.navbar {
+	background-color: #428bca;
+	border: none;
+}
+
+.navbar-brand {
+	color: #FFFFFF !important;
+}
+
+.window-height {
+	height: 96%;
+}
+
+.section {
+	padding-top: 130px;
+	text-align: center;
 }
