@@ -1,5 +1,5 @@
 // $('[data-container]').hide();
-// $('[data-interface-container]').hide();
+$('[data-interface-container]').hide();
 
 // $('[data-get-started]').click(function(event) {
 // 	// $('[data-container]').show();
@@ -27,11 +27,15 @@ $('[data-quantity-subtract-button]').click(function(event) {
 	if (quantity > 1) {
 		quantity--;
 	}
+	var keys = Object.keys(dict['items']);
+	$('[data-price]').html('$' + dict['items'][keys[index]] * quantity);
 	$('[data-quantity]').html(quantity);
 });
 
 $('[data-quantity-add-button]').click(function(event) {
 	quantity++;
+	var keys = Object.keys(dict['items']);
+	$('[data-price]').html('$' + dict['items'][keys[index]] * quantity);
 	$('[data-quantity]').html(quantity);
 });
 

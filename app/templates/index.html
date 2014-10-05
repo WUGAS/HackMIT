@@ -37,17 +37,17 @@
 		<section id="form">
 			<div class="window-height">
 				<div class="col-xs-offset-1 col-xs-10">
-					<h2>how many people?</h2>
-					<div class="form-group">
-						<span type="number" class="form-control" placeholder="how many people?" data-number-people>0</span>
+					<h4>Who are you splitting with? (Don't forget yourself)</h4>
+					<div class="form-group hide">
+						<span type="number" class="form-control" placeholder="" data-number-people>0</span>
 					</div>
-					<div class="form-group">
-						<button class="btn btn-primary" data-subtract-button>-</button>
-						<button class="btn btn-primary" data-add-button>+</button>
+					<div class="form-group row">
+						<button class="btn btn-primary" data-subtract-button>remove friend</button>
+						<button class="btn btn-primary" data-add-button>add friend</button>
 					</div>
 					<div data-list-of-people>
 					</div>
-					<h2>photo receipt</h2>
+					<h4>Take a photo of your receipt.</h4>
 					<div class="upload-container">
 						<input name="file" id="file" class="col-xs-offset-4 col-xs-4" type="file" src="{{url_for('static', filename='imgs/camera.png')}}">
 					</div>
@@ -55,11 +55,11 @@
 			</div>
 		</section>
 	</div>
-	<div class="window-height">
+	<div data-interface-container class="window-height">
 		<div class="col-xs-12">
 			<h4 data-how-many-purcahse></h4>
 			<div class="form-group">
-				<span type="number" class="form-control" placeholder="quantity?" data-quantity>0</span>
+				<span type="number" class="form-control" placeholder="quantity?" data-quantity>1</span>
 			</div>
 			<div class="form-group">
 				<button class="btn btn-primary" data-quantity-subtract-button>-</button>
@@ -69,10 +69,10 @@
 				<div class="circle-container" data-interface-people-container>
 						<h4>Split the cost?</h4>
 						<h4 data-item-text></h4>
+						<h4 data-price></h4>
 				</div>
 			</div>
-			<p></p>
-			<div class="form-group">
+			<div class="form-group" style="padding-top: 40px">
 				<button class="btn btn-primary col-xs-12" data-next-item>next item</button>	
 			</div>
 		</div>

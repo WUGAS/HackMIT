@@ -111,14 +111,21 @@ function ocrCallback(data) {
 	dataArray = fixOCR(response['text_block'][0].text);
 	dict = parseOCR(dataArray);
 
+	$('[data-interface-container]').show();
 	$('[data-container]').hide();
 
 	for (var i = 0; i < numberOfPeople; i++) {
-		$('[data-interface-people-container]').append('<div class="circle degrees-' + Math.floor((i+1)/numberOfPeople * 360) + '"><button class="btn circle-button" data-person-button-' + i + ' style="background-color: #' + colors[i%colors.length] + ';" data-index=' + (i + 1) + '></button>' + $('[data-person-' + (i + 1) + ']').val() + '</div>');
-		$('[data-person-button-' + i + ']').click(function(event) {
+		$('[data-interface-people-container]').append('<div class="circle degrees-' + Math.floor((i+1)/numberOfPeople * 360) + '"><button class="btn circle-button" data-person-button-' + (i + 1) + ' style="background-color: #DDDDDD;" data-index=' + (i + 1) + '></button>' + $('[data-person-' + (i + 1) + ']').val() + '</div>');
+		$('[data-person-button-' + (i + 1) + ']').click(function(event) {
 			var keys = Object.keys(dict['items']);
 			var person = $(this).data('index');
 			addToPeopleDict(person, keys[index]);
+			console.log(peopleDict[person].indexOf(keys[index]));
+			if (peopleDict[person].indexOf(keys[index]) >= 0) {
+				$('[data-person-button-' + person + ']').css('background-color', colors[person%colors.length]);
+			} else {
+				$('[data-person-button-' + person + ']').css('background-color', '#DDDDDD');
+			}
 		});
 	}
 
@@ -133,15 +140,28 @@ $('[data-next-item]').click(function(event) {
 
 	index++;
 
-	if (index < keys.length) {
-		setNextItemHeader(keys[index]);
+	if (index <= keys.length) {
+		if (index < keys.length) {
+			setNextItemHeader(keys[index]);
+		} else {
+			cost = figureGroupCost(peopleDict, dict['items'], numberOfPeople, dict['total'], dict['tip'], dict['tax']);
+
+			console.log(cost);
+		}
 	}
 });
 
 function setNextItemHeader(header) {
 	quantity = 1;
+
+	for (var i = 1; i < numberOfPeople + 1; i++) {
+		$('[data-person-button-' + i + ']').css('background-color', '#DDDDDD');
+	}
+
 	$('[data-how-many-purcahse]').html('How many ' + header + ' did you purchase?');
+	$('[data-price]').html('$' + dict['items'][header]);
 	$('[data-item-text]').html(header);
+	$('[data-quantity]').html(quantity);
 }
 
 function fixOCR(str) {
