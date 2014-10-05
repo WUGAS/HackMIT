@@ -149,9 +149,11 @@ $('[data-next-item]').click(function(event) {
 			var cost = figureGroupCost(peopleDict, dict['items'], numberOfPeople, dict['total'], dict['tip'], dict['tax']);
 
 			var array = Object.keys(cost);
+			$('.modal-list').empty();
 			for (var i = 0; i < array.length; i++) {	
-				$('[data-person-' + array[i]+ ']').val() + ' owes ' + cost[array[i]] + ' bit coin';
+				$('.modal-list').append('<li class="list-group-item">' + $('[data-person-' + array[i]+ ']').val() + ' owes ' + cost[array[i]] + ' bit coin' + '</li>');
 			}
+			$('#myModal').modal('show');
 		}
 	}
 });

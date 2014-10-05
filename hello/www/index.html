@@ -1,10 +1,11 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <title>Hello World</title>
-
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8">
+<head>
+	<!-- <meta content="yes" name="apple-mobile-web-app-capable" /> -->
+	<!-- <meta content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" name="viewport" /> -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/degree.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<script type="text/javascript" charset="utf-8">
 
     var pictureSource;   // picture source
     var destinationType; // sets the format of returned value
@@ -16,8 +17,8 @@
     // device APIs are available
     //
     function onDeviceReady() {
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
+    	pictureSource=navigator.camera.PictureSourceType;
+    	destinationType=navigator.camera.DestinationType;
     }
 
     // Called when a photo is successfully retrieved
@@ -32,13 +33,26 @@
 
       // Unhide image elements
       //
-      smallImage.style.display = 'block';
+      // smallImage.style.display = 'block';
 
       // Show the captured photo
       // The inline CSS rules are used to resize the image
       //
       smallImage.src = "data:image/jpeg;base64," + imageData;
-    }
+      var img = new Image();
+      img.src = smallImage.src;
+
+      console.log('string string string string string asdf' + img.src);
+
+      var canvas = document.getElementById('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext('2d');
+
+      ctx.drawImage(img, 0, 0);
+      grayScale(ctx, canvas);
+      sendPost();
+  }
 
     // Called when a photo is successfully retrieved
     //
@@ -58,47 +72,133 @@
       // The inline CSS rules are used to resize the image
       //
       largeImage.src = imageURI;
-    }
+  }
 
     // A button will call this function
     //
     function capturePhoto() {
       // Take picture using device camera and retrieve image as base64-encoded string
       navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
-        destinationType: destinationType.DATA_URL });
-    }
+      	destinationType: destinationType.DATA_URL });
+  }
 
     // A button will call this function
     //
     function capturePhotoEdit() {
       // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
       navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
-        destinationType: destinationType.DATA_URL });
-    }
+      	destinationType: destinationType.DATA_URL });
+  }
 
     // A button will call this function
     //
     function getPhoto(source) {
       // Retrieve image file location from specified source
       navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-        destinationType: destinationType.FILE_URI,
-        sourceType: source });
-    }
+      	destinationType: destinationType.FILE_URI,
+      	sourceType: source });
+  }
 
     // Called if something bad happens.
     //
     function onFail(message) {
-      alert('Failed because: ' + message);
+    	alert('Failed because: ' + message);
     }
 
     </script>
-  </head>
-  <body>
-    <button onclick="capturePhoto();">Capture Photo</button> <br>
-    <button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
-    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
-    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-    <img style="display:none;" id="largeImage" src="" />
-  </body>
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button> -->
+				<a class="navbar-brand" href="#">CheckIt</a>
+			</div>
+			<div class="navbar-right collapse navbar-collapse">
+			</div>
+		</div>
+	</div>
+	<div data-container>
+		<section id="welcome">
+			<div class="window-height">
+				<div class="col-xs-offset-1 col-xs-10">
+					<h1 class="section">CheckIt</h1>
+					<p>
+						Welcome to CheckIt, the worry free way to split the check with friends. 
+					</p>
+					<a class="btn btn-primary col-xs-12" href="#form" data-get-started>Let's get started!</a>
+				</div>
+			</div>
+		</section>
+		<section id="form">
+			<div class="window-height">
+				<div class="col-xs-offset-1 col-xs-10">
+					<h4>Who are you splitting with? (Don't forget yourself)</h4>
+					<div class="form-group hide">
+						<span type="number" class="form-control" placeholder="" data-number-people>0</span>
+					</div>
+					<div class="form-group row">
+						<button class="btn btn-primary" data-subtract-button>remove friend</button>
+						<button class="btn btn-primary" data-add-button>add friend</button>
+					</div>
+					<div data-list-of-people>
+					</div>
+					<h4>Take a photo of your receipt.</h4>
+					<div class="upload-container">
+						<button onclick="capturePhoto();">Capture Photo</button>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+	</div>
+	<div data-interface-container class="window-height">
+		<div class="col-xs-12">
+			<h4 data-how-many-purcahse></h4>
+			<div class="form-group">
+				<span type="number" class="form-control" placeholder="quantity?" data-quantity>1</span>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary" data-quantity-subtract-button>-</button>
+				<button class="btn btn-primary" data-quantity-add-button>+</button>
+			</div>
+			<div data-interface-container>
+				<div class="circle-container" data-interface-people-container>
+						<h4>Split the cost?</h4>
+						<h4 data-item-text></h4>
+						<h4 data-price></h4>
+				</div>
+			</div>
+			<div class="form-group" style="padding-top: 40px">
+				<button class="btn btn-primary col-xs-12" data-next-item>next item</button>	
+			</div>
+		</div>
+	</div>
+	<div class="window-height">
+		<!-- <div class="col-xs-12">
+			<h4 
+			<form>
+				Email address: <input type="text" name="email">
+			</form>
+		</div> -->
+	</div>
+	<canvas id="canvas" class="hide"></canvas>
+	<img id="smallImage" class="hide"></img>	
+	<!-- <form>
+		<input name="file" type="file" id="file"/>
+	</form> -->
+	<script src = "js/jquery.min.js"></script>
+	<script src = "js/index.js"></script>
+	<script src = "js/idolondemand-config.js"></script>
+	<script src = "js/idolondemand-types.js"></script>
+	<script src = "js/idolondemand-client.js"></script>
+	<script src = "js/ocr.js"></script>
+	<script src = "js/cost.js"></script>
+	<script type = "text/javascript" charset="utf-8" src="cordova.js"></script>
+</body>
 </html>
