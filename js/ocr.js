@@ -27,6 +27,7 @@ function handleImage(e) {
 			canvas.height = img.height;
 			ctx.drawImage(img, 0, 0);
 			grayScale(ctx, canvas);
+			sendPost(); //TEST
 		}
 		img.src = event.target.result;
 	}
@@ -38,7 +39,7 @@ function grayScale(context, canvas) {
 	var pixels = imgData.data;
 	for (var i = 0, n = pixels.length; i < n; i += 4) {
 		var grayscale = pixels[i] * 0.33 + pixels[i + 1] * 0.33 + pixels[i + 2] * 0.33;
-		if (grayscale < 150) {
+		if (grayscale < 100) {
 			pixels[i] = 0; // red
 			pixels[i + 1] = 0; // green
 			pixels[i + 2] = 0; // blue
@@ -90,10 +91,71 @@ function sendPost() {
 	xhr.onreadystatechange = function() {
 		fnHandleReadyState(xhr, function(data) {
 			var response = $.parseJSON(data.responseText);
-			console.log(response);
-			// console.log(response['text_block'][0].text);
+			// console.log(response);
+			console.log(response['text_block'][0].text);
+			test = fixOCR(response['text_block'][0].text);
+			console.log('redone: \n' + test);
+			parseOCR(test);
 		});
 	}
 	xhr.onload = function() {};
 	xhr.send(fd);
+}
+
+function fixOCR(str) {
+	// var fixDict = {};
+	// fixDict["s"] = "5";
+	// fixDict["S"] = "5";
+	// fixDict["l"] = "1"; ONLY PROBLEM
+	// fixDict["u"] = "0";
+	// fixDict["o"] = "0";
+	// fixDict["O"] = "0";
+	// fixDict["b"] = "8";
+	var line = str.split('\n');
+	var finalArr = [];
+	for (var i = 0; i < line.length; i++) {
+		var fixedArr = [];
+		var wordArr = line[i].split(' ');
+		var wordWork = true;
+		var workingString = "";
+		for (var j = 0; j < wordArr.length; j++) {
+			var word = wordArr[j];
+			if (isNaN(word)) { //not a number
+				if (word.length == 1 && word == "l") { //potential joining of elements
+					if (!(isNaN("1"+wordArr[j+1]))) {
+						fixedArr.push(workingString.substring(0, workingString.length - 1));
+						fixedArr.push("1"+wordArr[j+1]);
+						workingString = "";
+						j += 1;
+					}
+					else {
+						workingString += (word + " ");
+					}
+				}	
+				else {
+					workingString += (word + " ");
+				}	
+			}
+			else { //is a number
+
+				if (wordWork) {
+					fixedArr.push(workingString.substring(0, workingString.length - 1));
+					workingString = word;
+					wordWork = false;
+				}
+				else {
+					workingString += word;
+				}
+			}
+		}
+		if (workingString.length != 0) {
+			fixedArr.push(workingString);
+		}
+		finalArr.push(fixedArr);
+	}
+	return finalArr;
+}
+
+function parseOCR(receiptArray) { //[0] -> entree, [1] -> price
+
 }
