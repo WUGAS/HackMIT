@@ -1,5 +1,7 @@
 <html>
 <head>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" name="viewport" />
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
@@ -7,26 +9,57 @@
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">App Name</a>
+				</button> -->
+				<a class="navbar-brand" href="#">App Name</a>
 			</div>
 			<div class="navbar-right collapse navbar-collapse">
 			</div>
 		</div>
 	</div>
-	<div class="container">
-		<div class="row">
-			<div>
-				<h2>Welcome!</h2>
+	<section id="welcome">
+		<div class="window-height">
+			<div class="col-xs-offset-1 col-xs-10">
+				<h1 class="section">App Name</h1>
+				<p>
+					Welcome to App Name, the worry free way to split the check with friends. 
+				</p>
+				<a class="btn btn-primary col-xs-12" href="#how-many-people" data-get-started>Let's get started!</a>
 			</div>
-			<div class="col-xs-12">
-				<button class="btn btn-primary col-xs-12">Go!</button>
+		</div>
+	</section>
+	<div data-container>
+		<section id="how-many-people">
+			<div class="window-height">
+				<div class="col-xs-offset-1 col-xs-10">
+					<h2>How many people?</h2>
+					<div class="section">
+						<input type="number" class="form-control" placeholder="how many people?">
+					</div>
+					<div class="">
+						<a class="btn btn-primary col-xs-3" href="#welcome">Back</a>
+						<a class="btn btn-primary col-xs-offset-6 col-xs-3" href="#enter-info">Next</a>
+					</div>
+				</div>
 			</div>
+		</section>
+		<section id="enter-info">
+			<div class="window-height">
+				<div class="col-xs-offset-1 col-xs-10">
+					<h2>Take a photo?</h2>
+					<a class="btn btn-primary col-xs-3" href="#how-many-people">Back</a>
+					<a class="btn btn-primary col-xs-offset-6 col-xs-3" href="#enter-info">Next</a>
+				</div>
+			</div>
+		</section>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<p class="muted credit">Example courtesy <a href="http://martinbean.co.uk">Martin Bean</a> and <a href="http://ryanfait.com/sticky-footer/">Ryan Fait</a>.</p>
 		</div>
 	</div>
 	<canvas id="canvas"></canvas>
@@ -34,9 +67,10 @@
 		<input name="file" type="file" id="file"/>
 	</form>
 	<script src = "js/jquery.min.js"></script>
+	<script src = "js/index.js"></script>
 	<script src = "js/idolondemand-config.js"></script>
 	<script src = "js/idolondemand-types.js"></script>
 	<script src = "js/idolondemand-client.js"></script>
-	<script src = "js/ocr.js"></script> 
+	<script src = "js/ocr.js"></script>
 </body>
 </html>
