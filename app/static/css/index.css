@@ -15,6 +15,14 @@ h2 {
 	text-align: center;
 }
 
+h3 {
+	text-align: center;
+}
+
+h4 {
+	text-align: center;
+}
+
 .footer {
 	position:fixed;
 	left:0px;
@@ -47,9 +55,10 @@ h2 {
 	position: relative;
 	width: 19em;
 	height: 19em;
-	padding: 2em;
+	text-align: center;
+	/*padding: 2em;*/
 	border: solid 1px;
-	/*color: #428bca;*/
+	padding-top: 7em;
 	border-radius: 50%;
 	margin: 1.75em auto 0;
 }

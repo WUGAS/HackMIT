@@ -111,16 +111,35 @@ function ocrCallback(data) {
 	dataArray = fixOCR(response['text_block'][0].text);
 	dict = parseOCR(dataArray);
 
+	$('[data-container]').hide();
+
 	for (var i = 0; i < numberOfPeople; i++) {
-		$('[data-container]').hide();
-		$('[data-interface-people-container]').append('<div class="circle degrees-' + Math.floor((i+1)/numberOfPeople * 360) + '"><button class="btn circle-button" data-person-button-' + i + ' style="background-color: #' + colors[i%colors.length] + ';"></button>' + $('[data-person-' + (i + 1) + ']').val() + '</div>');
+		$('[data-interface-people-container]').append('<div class="circle degrees-' + Math.floor((i+1)/numberOfPeople * 360) + '"><button class="btn circle-button" data-person-button-' + i + ' style="background-color: #' + colors[i%colors.length] + ';" data-index=' + (i + 1) + '></button>' + $('[data-person-' + (i + 1) + ']').val() + '</div>');
+		$('[data-person-button-' + i + ']').click(function(event) {
+			var keys = Object.keys(dict['items']);
+			var person = $(this).data('index');
+			addToPeopleDict(person, keys[index]);
+		});
 	}
-}
+
+	var keys = Object.keys(dict['items']);
+	setNextItemHeader(keys[index]);
+} 
 
 $('[data-next-item]').click(function(event) {
-	console.log(Object.keys(dict['items']));
-	console.log('current ' + dict['items']);
+	var keys = Object.keys(dict['items']);
+	console.log([index]);
+	index++;
+
+	if (index < keys.length) {
+		setNextItemHeader(keys[index]);
+	}
 });
+
+function setNextItemHeader(header) {
+	$('[data-how-many-purcahse]').html('How many ' + header + ' did you purchase?');
+	$('[data-item-text]').html(header);
+}
 
 function fixOCR(str) {
 	// var fixDict = {};

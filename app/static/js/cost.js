@@ -41,9 +41,10 @@ var peopleDict = {};
 function addToPeopleDict(person, dish) {
 	if (peopleDict[person] == undefined) {
 		peopleDict[person] = [dish];
-	}
-	else {
+	} else if (peopleDict[person].indexOf(dish) < 0) {
 		peopleDict[person].push(dish);
+	} else if (peopleDict[person].indexOf(dish) >= 0) {
+		peopleDict[person].splice(peopleDict[person].indexOf(dish), 1);
 	}
 	return peopleDict;
 }

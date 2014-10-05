@@ -7,6 +7,8 @@
 
 var numberOfPeople = 0;
 
+var quantity = 0;
+
 $('[data-subtract-button]').click(function(event) {
 	$('[data-person-' + numberOfPeople + ']').remove();
 	if (numberOfPeople > 0) {
@@ -19,6 +21,18 @@ $('[data-add-button]').click(function(event) {
 	numberOfPeople++;
 	$('[data-list-of-people]').append('<div class="form-group"><input class="form-control" data-person-' + numberOfPeople + ' value="Friend ' + numberOfPeople + '"></input></div>');
 	$('[data-number-people]').html(numberOfPeople);
+});
+
+$('[data-quantity-subtract-button]').click(function(event) {
+	if (quantity > 0) {
+		quantity--;
+	}
+	$('[data-quantity]').html(quantity);
+});
+
+$('[data-quantity-add-button]').click(function(event) {
+	quantity++;
+	$('[data-quantity]').html(quantity);
 });
 
 // $('[data-upload-image]').click(function() {

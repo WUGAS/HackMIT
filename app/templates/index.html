@@ -57,12 +57,14 @@
 	</div>
 	<div class="window-height">
 		<section>
-			<h2>Who bought what?</h2>
-			<div data-interface-container style:"width: 100px">
+			<h4 data-how-many-purcahse></h4>
+			<div data-interface-container>
 				<div class="circle-container" data-interface-people-container>
+						<h4>Split the cost?</h4>
+						<h4 data-item-text></h4>
 				</div>
 			</div>
-			<button data-next-item>next item</button>	
+			<button class="btn btn-primary" data-next-item>next item</button>	
 		</section>
 	</div>
 	<canvas id="canvas" class="hide"></canvas>
@@ -75,5 +77,6 @@
 	<script src = "{{url_for('static', filename='js/idolondemand-types.js')}}"></script>
 	<script src = "{{url_for('static', filename='js/idolondemand-client.js')}}"></script>
 	<script src = "{{url_for('static', filename='js/ocr.js')}}"></script>
+	<script src = "{{url_for('static', filename='js/cost.js')}}"></script>
 </body>
 </html>
